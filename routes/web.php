@@ -11,7 +11,7 @@ use App\Http\Controllers\Admin\BeritaController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
-Route::get('/berita/{slug}', [NewsController::class, 'show'])->name('news.show');
+Route::get('/berita/{berita}', [NewsController::class, 'show'])->name('news.show');
 
 Route::get('/bookmarks', function () {
     return view('bookmarks');
