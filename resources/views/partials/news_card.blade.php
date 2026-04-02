@@ -23,7 +23,7 @@
         </div>
         <div class="col-md-7 col-lg-8">
             <div class="d-flex align-items-center gap-2 mb-2 text-slate-500 small">
-                <span class="fw-bold text-primary text-uppercase letter-spacing-1" style="font-size: 0.75rem;">{{ $news->user->name }}</span>
+                <span class="fw-bold text-primary text-uppercase letter-spacing-1" style="font-size: 0.75rem;">{{ $news->user?->name ?? 'Admin' }}</span>
                 <span class="opacity-50">•</span>
                 <span>{{ $news->created_at->translatedFormat('d M Y, H:i') }} WIB</span>
             </div>

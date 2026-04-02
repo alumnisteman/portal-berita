@@ -23,7 +23,7 @@
                             </h2>
                             <p class="text-slate-300 mb-4 d-none d-md-block fs-5 opacity-90" style="max-width: 90%;">{{ Str::limit(strip_tags($hero->content), 160) }}</p>
                             <div class="d-flex align-items-center gap-3 text-slate-400 small">
-                                <span class="fw-medium text-white">{{ $hero->user->name }}</span>
+                                <span class="fw-medium text-white">{{ $hero->user?->name ?? 'Admin' }}</span>
                                 <span class="opacity-30">•</span>
                                 <span>{{ $hero->created_at->translatedFormat('d M Y') }}</span>
                             </div>
