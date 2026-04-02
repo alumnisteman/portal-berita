@@ -5,26 +5,6 @@
 @section('og_type', 'article')
 @section('og_image', $berita->image ? Storage::url($berita->image) : asset('favicon.ico'))
 
-@push('head')
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "NewsArticle",
-  "headline": "{{ $berita->title }}",
-  "image": [
-    "{{ $berita->image ? Storage::url($berita->image) : asset('favicon.ico') }}"
-  ],
-  "datePublished": "{{ $berita->created_at->toIso8601String() }}",
-  "dateModified": "{{ $berita->updated_at->toIso8601String() }}",
-  "author": [{
-      "@type": "Person",
-      "name": "{{ $berita->user?->name ?? 'Admin' }}",
-      "url": "{{ url('/') }}"
-    }]
-}
-</script>
-@endpush
-
 @section('content')
     <article class="py-5 mb-5 bg-white">
         <div class="container">
@@ -76,8 +56,8 @@
                         </div>
                     @endif
 
-                    <!-- Top Ad Slot -->
                     @if(config('services.google.adsense_id'))
+                    <!-- Top Ad Slot -->
                     <div class="ad-slot-horizontal my-4 text-center">
                         <ins class="adsbygoogle"
                              style="display:block"
@@ -85,7 +65,6 @@
                              data-ad-slot="top_article"
                              data-ad-format="auto"
                              data-full-width-responsive="true"></ins>
-                        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
                     </div>
                     @endif
 
@@ -114,18 +93,6 @@
                                 @foreach($paragraphs as $index => $paragraph)
                                     <p class="mb-4">{!! nl2br(e($paragraph)) !!}</p>
                                     
-                                    @if($index == 1 && config('services.google.adsense_id'))
-                                        <div class="ad-slot-in-article my-5 text-center">
-                                            <ins class="adsbygoogle"
-                                                 style="display:block; text-align:center;"
-                                                 data-ad-layout="in-article"
-                                                 data-ad-format="fluid"
-                                                 data-ad-client="{{ config('services.google.adsense_id') }}"
-                                                 data-ad-slot="mid_article"></ins>
-                                            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-                                        </div>
-                                    @endif
-
                                     @if($index == 1 && isset($ads['article_interruption']))
                                         <div class="ad-in-article my-5 p-4 rounded-4 border bg-slate-50 text-center shadow-sm">
                                             <span class="ad-label border-bottom pb-1 mb-3 d-inline-block text-slate-400 small letter-spacing-1">SPONSORED CONTENT</span>
@@ -136,8 +103,8 @@
                                     @endif
                                 @endforeach
                                 
-                                <!-- Bottom Ad Slot -->
                                 @if(config('services.google.adsense_id'))
+                                <!-- Bottom Ad Slot -->
                                 <div class="ad-slot-horizontal mt-5 text-center">
                                     <ins class="adsbygoogle"
                                          style="display:block"
@@ -145,7 +112,6 @@
                                          data-ad-slot="bottom_article"
                                          data-ad-format="auto"
                                          data-full-width-responsive="true"></ins>
-                                    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
                                 </div>
                                 @endif
                             </div>
@@ -245,6 +211,18 @@
         </div>
     </article>
 
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "NewsArticle",
+      "headline": "{{ addslashes($berita->title) }}",
+      "image": ["{{ $berita->image ? Storage::url($berita->image) : asset('favicon.ico') }}"],
+      "datePublished": "{{ $berita->created_at->toIso8601String() }}",
+      "dateModified": "{{ $berita->updated_at->toIso8601String() }}",
+      "author": [{"@type": "Person", "name": "{{ $berita->user?->name ?? 'Admin' }}"}]
+    }
+    </script>
+
     <script>
         var disqus_config = function () {
             this.page.url = "{{ url()->current() }}";
@@ -256,5 +234,14 @@
             s.setAttribute('data-timestamp', +new Date());
             (d.head || d.body).appendChild(s);
         })();
+
+        @if(config('services.google.adsense_id'))
+        // Push AdSense ads
+        document.addEventListener('DOMContentLoaded', function() {
+            (adsbygoogle = window.adsbygoogle || []).push({});
+            (adsbygoogle = window.adsbygoogle || []).push({});
+            (adsbygoogle = window.adsbygoogle || []).push({});
+        });
+        @endif
     </script>
 @endsection
