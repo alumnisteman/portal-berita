@@ -215,13 +215,13 @@
 
     <script type="application/ld+json">
     {
-      "@context": "https://schema.org",
-      "@type": "NewsArticle",
+      "@@context": "https://schema.org",
+      "@@type": "NewsArticle",
       "headline": "{{ addslashes($berita->title) }}",
       "image": ["{{ $berita->image ? Storage::url($berita->image) : asset('favicon.ico') }}"],
       "datePublished": "{{ $berita->created_at->toIso8601String() }}",
       "dateModified": "{{ $berita->updated_at->toIso8601String() }}",
-      "author": [{"@type": "Person", "name": "{{ $berita->user?->name ?? 'Admin' }}"}]
+      "author": [{"@@type": "Person", "name": "{{ $berita->user?->name ?? 'Admin' }}"}]
     }
     </script>
 
@@ -237,13 +237,18 @@
             (d.head || d.body).appendChild(s);
         })();
 
-        @if(config('services.google.adsense_id'))
-        // Push AdSense ads
-        document.addEventListener('DOMContentLoaded', function() {
-            (adsbygoogle = window.adsbygoogle || []).push({});
-            (adsbygoogle = window.adsbygoogle || []).push({});
-            (adsbygoogle = window.adsbygoogle || []).push({});
-        });
+        @php $adsenseId = config('services.google.adsense_id'); @endphp
+        @if($adsenseId)
+            // Push AdSense ads
+            document.addEventListener('DOMContentLoaded', function() {
+                try {
+                    (adsbygoogle = window.adsbygoogle || []).push({});
+                    (adsbygoogle = window.adsbygoogle || []).push({});
+                    (adsbygoogle = window.adsbygoogle || []).push({});
+                } catch (e) {
+                    console.error('AdSense error:', e);
+                }
+            });
         @endif
     </script>
 @endsection
