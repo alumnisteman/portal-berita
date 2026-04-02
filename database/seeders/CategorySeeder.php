@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
 use App\Models\Category;
+use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
 
 class CategorySeeder extends Seeder
@@ -11,21 +11,18 @@ class CategorySeeder extends Seeder
     /**
      * Run the database seeds.
      */
-    public function up(): void
-    {
-        // CategorySeeder up() is not standard, it's run()
-    }
-
     public function run(): void
     {
         $categories = [
             'Politik',
             'Ekonomi',
-            'Teknologi',
+            'Tekhnologi',
             'Hiburan',
-            'Olahraga',
+            'OlahRaga',
             'Kesehatan',
-            'Internasional'
+            'Internasional',
+            'Nasional',
+            'News',
         ];
 
         foreach ($categories as $category) {
