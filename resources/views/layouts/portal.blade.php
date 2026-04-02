@@ -393,14 +393,14 @@
 
     <footer class="footer">
         <div class="container text-center">
-            <h5 class="navbar-brand text-white mb-4">Portal Berita</h5>
+            <h5 class="navbar-brand text-white mb-4">Info Portal</h5>
             <p class="mb-4">Informasi terpercaya untuk generasi cerdas.</p>
-            <div class="d-flex justify-content-center gap-4 mb-4">
-                <a href="#" class="text-decoration-none" style="color: #94a3b8">Bantuan</a>
-                <a href="#" class="text-decoration-none" style="color: #94a3b8">Kontak</a>
-                <a href="#" class="text-decoration-none" style="color: #94a3b8">Ketentuan Layanan</a>
+            <div class="d-flex justify-content-center gap-4 mb-4 flex-wrap">
+                <a href="{{ route('about') }}" class="text-decoration-none" style="color: #94a3b8">Tentang Kami</a>
+                <a href="{{ route('privacy') }}" class="text-decoration-none" style="color: #94a3b8">Kebijakan Privasi</a>
+                <a href="mailto:redaksi@infoportal.id" class="text-decoration-none" style="color: #94a3b8">Kontak</a>
             </div>
-            <p class="small">&copy; {{ date('Y') }} Portal Berita. All rights reserved.</p>
+            <p class="small" style="color: #64748b">&copy; {{ date('Y') }} Info Portal. All rights reserved.</p>
         </div>
     </footer>
 

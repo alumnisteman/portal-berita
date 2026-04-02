@@ -5,13 +5,17 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\LoadMoreController;
 use App\Http\Controllers\BookmarkSyncController;
+use App\Http\Controllers\PageController;
 use App\Http\Controllers\Admin\IklanController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\BeritaController;
+use App\Http\Controllers\Admin\AiArticleController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/post/{berita}', [NewsController::class, 'show'])->name('news.show');
+Route::get('/tentang-kami', [PageController::class, 'about'])->name('about');
+Route::get('/kebijakan-privasi', [PageController::class, 'privacy'])->name('privacy');
 
 Route::get('/bookmarks', function () {
     return view('bookmarks');
@@ -32,6 +36,10 @@ Route::middleware('auth')->group(function () {
     Route::prefix('admin')->name('admin.')->group(function () {
         Route::resource('berita', BeritaController::class)->parameters(['berita' => 'berita']);
         Route::resource('iklan', IklanController::class);
+        // AI Article Generator
+        Route::get('/ai-article', [AiArticleController::class, 'create'])->name('ai-article.create');
+        Route::post('/ai-article/generate', [AiArticleController::class, 'generate'])->name('ai-article.generate');
+        Route::post('/ai-article/store', [AiArticleController::class, 'store'])->name('ai-article.store');
     });
 });
 

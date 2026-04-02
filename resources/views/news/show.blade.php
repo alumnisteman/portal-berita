@@ -108,7 +108,7 @@
                             <!-- Main Content Body -->
                             <div class="berita-content text-slate-800 leading-relaxed mb-5" style="font-size: 1.25rem; line-height: 1.85; font-family: 'Inter', sans-serif;">
                                 @php
-                                    $paragraphs = explode("\n\n", $berita->content);
+                                    $paragraphs = explode("\n\n", $berita->linked_content ?? $berita->content);
                                 @endphp
 
                                 @foreach($paragraphs as $index => $paragraph)
