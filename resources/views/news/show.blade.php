@@ -26,7 +26,7 @@
                             <span class="opacity-30 d-none d-md-inline">•</span>
                             <div class="d-flex align-items-center">
                                 <svg class="me-2 text-slate-400" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                                <span>{{ $berita->created_at->translatedFormat('d F Y, H:i') }} WIB</span>
+                                <span>{{ $berita->created_at?->translatedFormat('d F Y, H:i') ?? '-' }} WIB</span>
                             </div>
                         </div>
 
