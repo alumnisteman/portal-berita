@@ -91,7 +91,9 @@
                                 @endphp
 
                                 @foreach($paragraphs as $index => $paragraph)
-                                    <p class="mb-4">{!! nl2br(e($paragraph)) !!}</p>
+                                    <div class="mb-4">
+                                        {!! $paragraph !!}
+                                    </div>
                                     
                                     @if($index == 1 && isset($ads['article_interruption']))
                                         <div class="ad-in-article my-5 p-4 rounded-4 border bg-slate-50 text-center shadow-sm">
