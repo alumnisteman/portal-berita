@@ -23,7 +23,13 @@
         </div>
         <div class="col-md-7 col-lg-8">
             <div class="d-flex align-items-center gap-2 mb-2 text-slate-500 small">
-                <span class="fw-bold text-primary text-uppercase letter-spacing-1" style="font-size: 0.75rem;">{{ $news->user?->name ?? 'Admin' }}</span>
+                @if($news->category)
+                    <span class="badge bg-indigo-soft text-primary border-0 px-2 py-1 rounded-pill fw-bold text-uppercase" style="font-size: 0.65rem; letter-spacing: 0.5px;">
+                        {{ $news->category->name }}
+                    </span>
+                    <span class="opacity-30">|</span>
+                @endif
+                <span class="fw-bold text-slate-700 text-uppercase letter-spacing-1" style="font-size: 0.75rem;">{{ $news->user?->name ?? 'Admin' }}</span>
                 <span class="opacity-50">•</span>
                 <span>{{ $news->created_at?->translatedFormat('d M Y, H:i') ?? '-' }} WIB</span>
             </div>

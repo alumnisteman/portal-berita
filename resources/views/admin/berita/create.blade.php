@@ -43,6 +43,23 @@
                             @enderror
                         </div>
 
+                        <!-- Category Selection -->
+                        <div class="space-y-2">
+                            <label class="block text-sm font-bold text-slate-700 ml-1">Kategori Berita</label>
+                            <select name="category_id" 
+                                    class="block w-full px-5 py-4 bg-slate-50/50 border border-slate-200 rounded-2xl text-slate-700 focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 transition-all @error('category_id') border-rose-500 bg-rose-50/10 @enderror">
+                                <option value="">-- Pilih Kategori --</option>
+                                @foreach($categories as $category)
+                                    <option value="{{ $category->id }}" {{ old('category_id') == $category->id ? 'selected' : '' }}>
+                                        {{ $category->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            @error('category_id')
+                                <p class="text-rose-500 text-xs mt-1 font-semibold ml-1">{{ $message }}</p>
+                            @enderror
+                        </div>
+
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                             <!-- Image Upload -->
                             <div class="space-y-2">

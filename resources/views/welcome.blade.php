@@ -17,7 +17,11 @@
                              style="min-height: 550px;"
                              fetchpriority="high">
                         <div class="position-absolute bottom-0 start-0 w-100 p-4 p-md-5 pt-5" style="background: linear-gradient(to top, rgba(15, 23, 42, 0.95) 0%, rgba(15, 23, 42, 0.4) 50%, transparent 100%);">
-                            <span class="badge bg-primary px-3 py-2 rounded-pill mb-3 shadow-sm font-sans fw-bold tracking-wider" style="font-size: 0.7rem;">UTAMA</span>
+                            @if($hero->category)
+                                <span class="badge bg-primary px-3 py-2 rounded-pill mb-3 shadow-sm font-sans fw-bold tracking-wider" style="font-size: 0.7rem;">{{ $hero->category->name }}</span>
+                            @else
+                                <span class="badge bg-primary px-3 py-2 rounded-pill mb-3 shadow-sm font-sans fw-bold tracking-wider" style="font-size: 0.7rem;">UTAMA</span>
+                            @endif
                             <h2 class="text-white fw-bold display-5 mb-3 font-playfair tracking-tight" style="line-height: 1.1;">
                                 <a href="{{ route('news.show', $hero->slug) }}" class="text-white text-decoration-none hover:text-indigo-400 transition-colors">{{ $hero->title }}</a>
                             </h2>

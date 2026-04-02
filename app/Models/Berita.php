@@ -17,6 +17,7 @@ class Berita extends Model
         'image',
         'status',
         'user_id',
+        'category_id',
         'summary',
         'views',
     ];
@@ -44,5 +45,13 @@ class Berita extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    /**
+     * Relationship with the Category.
+     */
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
     }
 }

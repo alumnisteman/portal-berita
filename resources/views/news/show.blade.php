@@ -21,6 +21,11 @@
                         <div class="d-flex align-items-center justify-content-center flex-wrap gap-4 text-slate-500 mb-4">
                             <div class="d-flex align-items-center">
                                 <img src="https://ui-avatars.com/api/?name={{ urlencode($berita->user?->name ?? 'Admin') }}&background=4f46e5&color=fff" class="rounded-circle me-2 shadow-sm" width="32" height="32" alt="">
+                                @if($berita->category)
+                                    <span class="badge bg-indigo-soft text-primary border-0 px-3 py-2 rounded-pill fw-bold text-uppercase me-3" style="font-size: 0.75rem; letter-spacing: 1px;">
+                                        {{ $berita->category->name }}
+                                    </span>
+                                @endif
                                 <span class="fw-bold text-slate-900">{{ $berita->user?->name ?? 'Admin' }}</span>
                             </div>
                             <span class="opacity-30 d-none d-md-inline">•</span>

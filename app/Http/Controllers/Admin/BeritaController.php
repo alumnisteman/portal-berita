@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Berita;
 use Illuminate\Http\Request;
+use App\Models\Category;
 use Illuminate\Support\Str;
 use App\Jobs\GenerateSummaryJob;
 use Illuminate\Support\Facades\Storage;
@@ -25,7 +26,8 @@ class BeritaController extends Controller
      */
     public function create()
     {
-        return view('admin.berita.create');
+        $categories = Category::all();
+        return view('admin.berita.create', compact('categories'));
     }
 
     /**
@@ -36,6 +38,7 @@ class BeritaController extends Controller
         $request->validate([
             'title' => 'required|string|max:255',
             'content' => 'required',
+            'category_id' => 'nullable|exists:categories,id',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'status' => 'required|in:published,draft',
         ]);
@@ -49,6 +52,7 @@ class BeritaController extends Controller
             'title' => $request->title,
             'slug' => Str::slug($request->title),
             'content' => $request->content,
+            'category_id' => $request->category_id,
             'image' => $imagePath,
             'status' => $request->status,
             'user_id' => auth()->id(),
@@ -65,7 +69,8 @@ class BeritaController extends Controller
      */
     public function edit(Berita $berita)
     {
-        return view('admin.berita.edit', compact('berita'));
+        $categories = Category::all();
+        return view('admin.berita.edit', compact('berita', 'categories'));
     }
 
     /**
@@ -76,6 +81,7 @@ class BeritaController extends Controller
         $request->validate([
             'title' => 'required|string|max:255',
             'content' => 'required',
+            'category_id' => 'nullable|exists:categories,id',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'status' => 'required|in:published,draft',
         ]);
@@ -93,6 +99,7 @@ class BeritaController extends Controller
             'title' => $request->title,
             'slug' => Str::slug($request->title),
             'content' => $request->content,
+            'category_id' => $request->category_id,
             'image' => $imagePath,
             'status' => $request->status,
         ]);
