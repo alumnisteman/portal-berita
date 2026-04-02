@@ -39,4 +39,9 @@ return [
         'key' => env('GEMINI_API_KEY', 'MOCK_KEY'),
     ],
 
+    'google' => [
+        'analytics_id' => env('GA_MEASUREMENT_ID'),
+        'adsense_id' => env('ADSENSE_PUB_ID'),
+    ],
+
 ];

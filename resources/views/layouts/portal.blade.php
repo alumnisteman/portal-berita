@@ -4,6 +4,40 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', 'Portal Berita Terkini') - Info Portal</title>
+    <meta name="description" content="@yield('meta_description', 'Portal berita terpercaya menyajikan informasi terkini seputar Politik, Ekonomi, Teknologi, dan Gaya Hidup.')">
+    <meta name="keywords" content="portal berita, info terkini, berita indonesia, berita hari ini, @yield('meta_keywords')">
+    <meta name="author" content="Info Portal">
+    <meta name="robots" content="index, follow">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="@yield('og_type', 'website')">
+    <meta property="og:url" content="{{ url()->current() }}">
+    <meta property="og:title" content="@yield('title', 'Portal Berita Terkini') - Info Portal">
+    <meta property="og:description" content="@yield('meta_description', 'Portal berita terpercaya menyajikan informasi terkini seputar Politik, Ekonomi, Teknologi, dan Gaya Hidup.')">
+    <meta property="og:image" content="@yield('og_image', asset('favicon.ico'))">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="{{ url()->current() }}">
+    <meta property="twitter:title" content="@yield('title', 'Portal Berita Terkini') - Info Portal">
+    <meta property="twitter:description" content="@yield('meta_description', 'Portal berita terpercaya menyajikan informasi terkini seputar Politik, Ekonomi, Teknologi, dan Gaya Hidup.')">
+    <meta property="twitter:image" content="@yield('og_image', asset('favicon.ico'))">
+
+    @if(config('services.google.analytics_id'))
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id={{ config('services.google.analytics_id') }}"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', '{{ config('services.google.analytics_id') }}');
+    </script>
+    @endif
+
+    @if(config('services.google.adsense_id'))
+    <!-- Google AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client={{ config('services.google.adsense_id') }}" crossorigin="anonymous"></script>
+    @endif
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Google Fonts - Inter & Playfair Display -->

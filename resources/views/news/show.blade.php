@@ -1,6 +1,29 @@
 @extends('layouts.portal')
 
 @section('title', $berita->title)
+@section('meta_description', Str::limit(strip_tags($berita->content), 150))
+@section('og_type', 'article')
+@section('og_image', $berita->image ? Storage::url($berita->image) : asset('favicon.ico'))
+
+@push('head')
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "NewsArticle",
+  "headline": "{{ $berita->title }}",
+  "image": [
+    "{{ $berita->image ? Storage::url($berita->image) : asset('favicon.ico') }}"
+  ],
+  "datePublished": "{{ $berita->created_at->toIso8601String() }}",
+  "dateModified": "{{ $berita->updated_at->toIso8601String() }}",
+  "author": [{
+      "@type": "Person",
+      "name": "{{ $berita->user?->name ?? 'Admin' }}",
+      "url": "{{ url('/') }}"
+    }]
+}
+</script>
+@endpush
 
 @section('content')
     <article class="py-5 mb-5 bg-white">
@@ -49,8 +72,21 @@
                     @if($berita->image)
                         <div class="mb-5 rounded-5 overflow-hidden shadow-2xl border-0">
                             <img src="{{ Storage::url($berita->image) }}" class="w-100 img-fluid object-fit-cover" 
-                                 alt="{{ $berita->title }}" style="aspect-ratio: 16/9; max-height: 600px;" fetchpriority="high">
+                                 alt="{{ $berita->title }}" style="aspect-ratio: 16/9; max-height: 600px;" fetchpriority="high" loading="lazy">
                         </div>
+                    @endif
+
+                    <!-- Top Ad Slot -->
+                    @if(config('services.google.adsense_id'))
+                    <div class="ad-slot-horizontal my-4 text-center">
+                        <ins class="adsbygoogle"
+                             style="display:block"
+                             data-ad-client="{{ config('services.google.adsense_id') }}"
+                             data-ad-slot="top_article"
+                             data-ad-format="auto"
+                             data-full-width-responsive="true"></ins>
+                        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+                    </div>
                     @endif
 
                     <div class="row g-5">
@@ -78,15 +114,40 @@
                                 @foreach($paragraphs as $index => $paragraph)
                                     <p class="mb-4">{!! nl2br(e($paragraph)) !!}</p>
                                     
+                                    @if($index == 1 && config('services.google.adsense_id'))
+                                        <div class="ad-slot-in-article my-5 text-center">
+                                            <ins class="adsbygoogle"
+                                                 style="display:block; text-align:center;"
+                                                 data-ad-layout="in-article"
+                                                 data-ad-format="fluid"
+                                                 data-ad-client="{{ config('services.google.adsense_id') }}"
+                                                 data-ad-slot="mid_article"></ins>
+                                            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+                                        </div>
+                                    @endif
+
                                     @if($index == 1 && isset($ads['article_interruption']))
                                         <div class="ad-in-article my-5 p-4 rounded-4 border bg-slate-50 text-center shadow-sm">
                                             <span class="ad-label border-bottom pb-1 mb-3 d-inline-block text-slate-400 small letter-spacing-1">SPONSORED CONTENT</span>
                                             <a href="{{ $ads['article_interruption']->url_link }}" target="_blank" class="d-block overflow-hidden rounded-3">
-                                                <img src="{{ Storage::url($ads['article_interruption']->image_path) }}" class="img-fluid transition-transform hover:scale-105" alt="Iklan">
+                                                <img src="{{ Storage::url($ads['article_interruption']->image_path) }}" class="img-fluid transition-transform hover:scale-105" alt="Iklan" loading="lazy">
                                             </a>
                                         </div>
                                     @endif
                                 @endforeach
+                                
+                                <!-- Bottom Ad Slot -->
+                                @if(config('services.google.adsense_id'))
+                                <div class="ad-slot-horizontal mt-5 text-center">
+                                    <ins class="adsbygoogle"
+                                         style="display:block"
+                                         data-ad-client="{{ config('services.google.adsense_id') }}"
+                                         data-ad-slot="bottom_article"
+                                         data-ad-format="auto"
+                                         data-full-width-responsive="true"></ins>
+                                    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+                                </div>
+                                @endif
                             </div>
 
                             <!-- Share Section -->
@@ -139,7 +200,7 @@
                                     <div class="text-center rounded-4 overflow-hidden border shadow-sm">
                                         <span class="ad-label d-block bg-slate-50 border-bottom py-1 small text-slate-400">IKLAN</span>
                                         <a href="{{ $ads['sidebar_square']->url_link }}" target="_blank">
-                                            <img src="{{ Storage::url($ads['sidebar_square']->image_path) }}" class="img-fluid w-100" alt="">
+                                            <img src="{{ Storage::url($ads['sidebar_square']->image_path) }}" class="img-fluid w-100" alt="" loading="lazy">
                                         </a>
                                     </div>
                                 @endisset
@@ -161,7 +222,7 @@
                             <div class="card border-0 shadow-sm rounded-5 overflow-hidden h-100 bg-white group hover:shadow-xl transition-all">
                                 @if($related->image)
                                     <div class="overflow-hidden aspect-video">
-                                        <img src="{{ Storage::url($related->image) }}" class="card-img-top w-100 h-100 object-fit-cover transition-transform group-hover:scale-110" alt="{{ $related->title }}">
+                                        <img src="{{ Storage::url($related->image) }}" class="card-img-top w-100 h-100 object-fit-cover transition-transform group-hover:scale-110" alt="{{ $related->title }}" loading="lazy">
                                     </div>
                                 @endif
                                 <div class="card-body p-4">
