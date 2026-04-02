@@ -6,42 +6,50 @@
     <title>@yield('title', 'Portal Berita Terkini') - Info Portal</title>
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Google Fonts - Outfit & Playfair Display -->
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
+    <!-- Google Fonts - Inter & Playfair Display -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,700;0,800;0,900;1,700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary-indigo: #6366f1;
+            --primary-indigo: #4f46e5;
             --primary-dark: #0f172a;
-            --accent-rose: #f43f5e;
+            --accent-rose: #e11d48;
             --text-main: #334155;
+            --text-muted: #64748b;
             --bg-light: #f8fafc;
             --card-bg: #ffffff;
-            --border-color: rgba(0, 0, 0, 0.05);
-            --nav-bg: rgba(255, 255, 255, 0.8);
+            --border-color: #e2e8f0;
+            --nav-bg: rgba(255, 255, 255, 0.85);
+            --sidebar-bg: #ffffff;
         }
 
         body.dark-mode {
             --primary-dark: #f8fafc;
-            --text-main: #94a3b8;
+            --text-main: #cbd5e1;
+            --text-muted: #94a3b8;
             --bg-light: #020617;
             --card-bg: #0f172a;
-            --card-border: rgba(255, 255, 255, 0.08); /* Softer borders in dark mode */
-            --border-color: rgba(255, 255, 255, 0.1);
+            --card-border: rgba(255, 255, 255, 0.1);
+            --border-color: #1e293b;
             --nav-bg: rgba(2, 6, 23, 0.9);
-            --sidebar-bg: #1e293b;
+            --sidebar-bg: #0f172a;
         }
 
         body { 
-            font-family: 'Outfit', sans-serif; 
+            font-family: 'Inter', sans-serif; 
             background-color: var(--bg-light); 
             color: var(--text-main);
-            line-height: 1.6;
+            line-height: 1.625;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
             transition: background-color 0.3s ease, color 0.3s ease;
         }
 
-        h1, h2, h3, .font-playfair { 
+        h1, h2, h3, h4, h5, h6, .font-playfair { 
             font-family: 'Playfair Display', serif; 
             color: var(--primary-dark);
+            letter-spacing: -0.02em;
         }
 
         /* Glassmorphism Navbar */
@@ -278,42 +286,41 @@
         <a href="{{ $ads['wallpaper']->url_link }}" target="_blank" class="ad-wallpaper" style="background-image: url('{{ Storage::url($ads['wallpaper']->image_path) }}')"></a>
     @endisset
 
-    <nav class="navbar navbar-expand-lg navbar-light navbar-custom sticky-top">
-        <div class="container py-1">
-            <a class="navbar-brand" href="/">Portal Berita</a>
-            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+    <nav class="navbar navbar-expand-lg navbar-light navbar-custom sticky-top py-3">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="/">
+                <span class="fw-bold text-uppercase tracking-tighter" style="letter-spacing: -1px; font-size: 1.5rem; background: linear-gradient(90deg, #1e293b, #4f46e5); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">PORTAL<span style="color: #4f46e5; -webkit-text-fill-color: #4f46e5;">BERITA</span></span>
+            </a>
+            <button class="navbar-toggler border-0 shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto gap-3">
+                <ul class="navbar-nav ms-auto gap-1 align-items-center">
                     <li class="nav-item">
-                        <a class="nav-link fw-semibold text-dark {{ request()->is('/') ? 'active text-primary' : '' }}" href="/">Home</a>
+                        <a class="nav-link px-3 fw-medium text-slate-700 {{ request()->is('/') ? 'active text-primary' : '' }}" href="/">Home</a>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle fw-semibold text-dark" href="#" role="button" data-bs-toggle="dropdown">Kanal Berita</a>
-                        <ul class="dropdown-menu border-0 shadow-lg rounded-3">
-                            <li><a class="dropdown-item" href="#">Nasional</a></li>
-                            <li><a class="dropdown-item" href="#">Ekonomi</a></li>
-                            <li><a class="dropdown-item" href="#">Teknologi</a></li>
-                            <li><a class="dropdown-item" href="#">Hiburan</a></li>
+                        <a class="nav-link px-3 dropdown-toggle fw-medium text-slate-700" href="#" role="button" data-bs-toggle="dropdown">Kategori</a>
+                        <ul class="dropdown-menu border-0 shadow-xl rounded-4 p-2 mt-2">
+                            <li><a class="dropdown-item rounded-3 py-2" href="#">Nasional</a></li>
+                            <li><a class="dropdown-item rounded-3 py-2" href="#">Ekonomi</a></li>
+                            <li><a class="dropdown-item rounded-3 py-2" href="#">Teknologi</a></li>
+                            <li><a class="dropdown-item rounded-3 py-2" href="#">Hiburan</a></li>
                         </ul>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link fw-semibold text-dark {{ request()->is('bookmarks') ? 'active text-primary' : '' }}" href="/bookmarks">
-                            <svg class="w-5 h-5 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="width: 20px;"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"></path></svg>
-                            Saved
-                        </a>
+                        <a class="nav-link px-3 fw-medium text-slate-700 {{ request()->is('bookmarks') ? 'active text-primary' : '' }}" href="/bookmarks">Terarsip</a>
                     </li>
                 </ul>
                 <div class="ms-lg-4 d-flex align-items-center gap-3">
-                    <div class="dark-toggle" id="theme-toggle" title="Toggle Dark Mode">
-                        <svg class="w-6 h-6 sun-icon d-none" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="width: 24px;"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707M16.243 17.657l.707-.707M7.757 6.364l.707-.707M12 8a4 4 0 100 8 4 4 0 000-8z"></path></svg>
-                        <svg class="w-6 h-6 moon-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="width: 24px;"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+                    <div class="dark-toggle" id="theme-toggle" title="Ganti Tema">
+                        <svg class="sun-icon d-none" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707M16.243 17.657l.707-.707M7.757 6.364l.707-.707M12 8a4 4 0 100 8 4 4 0 000-8z"></path></svg>
+                        <svg class="moon-icon" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
                     </div>
                     @auth
-                        <a href="{{ route('dashboard') }}" class="btn btn-modern">Dashboard</a>
+                        <a href="{{ route('dashboard') }}" class="btn btn-modern px-4 py-2">Dasbor</a>
                     @else
-                        <a href="{{ route('login') }}" class="btn btn-modern">Masuk</a>
+                        <a href="{{ route('login') }}" class="btn btn-modern px-4 py-2">Masuk</a>
                     @endauth
                 </div>
             </div>
