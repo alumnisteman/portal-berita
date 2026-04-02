@@ -56,8 +56,9 @@ class AiArticleController extends Controller
 
         try {
             $apiKey = config('services.gemini.key');
+            $model = config('services.gemini.model');
             $response = Http::withHeaders(['Content-Type' => 'application/json'])
-                ->post("https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={$apiKey}", [
+                ->post("https://generativelanguage.googleapis.com/v1beta/models/{$model}:generateContent?key={$apiKey}", [
                     'contents' => [['parts' => [['text' => $prompt]]]],
                     'generationConfig' => ['temperature' => 0.7, 'maxOutputTokens' => 4096],
                 ]);
