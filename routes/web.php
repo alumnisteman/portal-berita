@@ -13,6 +13,7 @@ use App\Http\Controllers\Admin\AiArticleController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/category/{category:slug}', [NewsController::class, 'category'])->name('news.category');
 Route::get('/post/{berita}', [NewsController::class, 'show'])->name('news.show');
 Route::get('/tentang-kami', [PageController::class, 'about'])->name('about');
 Route::get('/kebijakan-privasi', [PageController::class, 'privacy'])->name('privacy');

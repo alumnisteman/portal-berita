@@ -65,7 +65,9 @@
             <!-- News Feed -->
             <div class="col-lg-8">
                 <div class="d-flex align-items-center justify-content-between mb-4 pb-2 border-bottom border-slate-200">
-                    <h4 class="fw-bold m-0 font-playfair fs-2 text-slate-900">Terbaru</h4>
+                    <h4 class="fw-bold m-0 font-playfair fs-2 text-slate-900">
+                        {{ $category_title ?? 'Terbaru' }}
+                    </h4>
                     <a href="#" class="text-primary text-decoration-none small fw-bold">LIHAT SEMUA</a>
                 </div>
                 
@@ -75,7 +77,7 @@
                             @include('partials.news_card', ['news' => $news])
                         @empty
                             <div class="text-center py-5 bg-slate-50 rounded-4">
-                                <p class="text-slate-400 mb-0">Belum ada berita yang diterbitkan.</p>
+                                <p class="text-slate-400 mb-0">Belum ada berita yang diterbitkan di kategori ini.</p>
                             </div>
                         @endforelse
                     </div>
@@ -93,28 +95,30 @@
                     @endif
                 </div>
 
+                @if(!isset($category_title))
                 <!-- Section: Category Blocks -->
                 <div class="row g-4 mb-5">
                     @foreach($categories as $catName => $catNews)
                         <div class="col-md-6">
                             <div class="card border-0 shadow-sm rounded-4 overflow-hidden h-100 bg-white">
-                                <div class="card-header bg-white border-0 pt-4 px-4 pb-0">
-                                    <div class="d-flex align-items-center justify-content-between mb-3">
-                                        <h5 class="fw-bold mb-0 text-slate-900 font-playfair">{{ $catName }}</h5>
-                                        <div class="h-1 bg-primary rounded-pill" style="width: 40px; height: 3px;"></div>
-                                    </div>
+                                <div class="card-header bg-white border-0 p-4 pb-0 d-flex justify-content-between align-items-center">
+                                    <h5 class="fw-bold m-0 font-playfair">{{ $catName }}</h5>
+                                    @php 
+                                        $catSlug = \Illuminate\Support\Str::slug($catName);
+                                    @endphp
+                                    <a href="{{ route('news.category', $catSlug) }}" class="text-primary text-decoration-none small fw-bold">MORE →</a>
                                 </div>
-                                <div class="card-body p-4 pt-2">
-                                    @foreach($catNews as $cn)
-                                        <div class="mb-4 d-flex gap-3 align-items-start group">
-                                            <div class="flex-shrink-0" style="width: 90px;">
-                                                <img src="{{ Storage::url($cn->image) }}" class="rounded-3 shadow-sm w-100 object-fit-cover" style="aspect-ratio: 4/3;" alt="">
+                                <div class="card-body p-4">
+                                    @foreach($catNews as $news)
+                                        <div class="d-flex align-items-center mb-3">
+                                            <div class="flex-shrink-0" style="width: 80px; height: 60px;">
+                                                <img src="{{ $news->image ? Storage::url($news->image) : 'https://images.unsplash.com/photo-1504711434969-e33886168f5c?q=80&w=200&auto=format&fit=crop' }}" 
+                                                     class="w-100 h-100 object-fit-cover rounded-3" alt="">
                                             </div>
-                                            <div class="flex-grow-1">
-                                                <h6 class="fw-bold mb-1" style="line-height: 1.4;">
-                                                    <a href="{{ route('news.show', $cn->slug) }}" class="text-slate-800 text-decoration-none small hover:text-primary transition-colors">{{ Str::limit($cn->title, 55) }}</a>
+                                            <div class="flex-grow-1 ms-3">
+                                                <h6 class="small fw-bold mb-1 lh-sm">
+                                                    <a href="{{ route('news.show', $news->slug) }}" class="text-slate-800 text-decoration-none hover:text-primary transition-colors line-clamp-2">{{ Str::limit($news->title, 55) }}</a>
                                                 </h6>
-                                                <span class="text-slate-400" style="font-size: 0.7rem;">{{ $cn->created_at->translatedFormat('d M Y') }}</span>
                                             </div>
                                         </div>
                                     @endforeach
@@ -123,8 +127,8 @@
                         </div>
                     @endforeach
                 </div>
+                @endif
             </div>
-
             <!-- Sidebar -->
             <div class="col-lg-4">
                 <div class="sticky-top" style="top: 110px;">

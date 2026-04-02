@@ -21,6 +21,12 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Paginator::useBootstrapFive();
+
+        // Share categories for navigation
+        \Illuminate\Support\Facades\View::composer('*', function ($view) {
+            $nav_categories = \App\Models\Category::all();
+            $view->with('nav_categories', $nav_categories);
+        });
     }
 }
 

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Berita;
+use App\Models\Category;
 use App\Models\Iklan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -61,5 +62,34 @@ class NewsController extends Controller
         $trending_keywords = ['Pemilu 2024', 'Mudik Lebaran', 'Artificial Intelligence', 'Timnas Indonesia', 'Inovasi Digital', 'Gaya Hidup Sehat'];
 
         return view('news.show', compact('berita', 'ads', 'related_news', 'trending_keywords'));
+    }
+
+    /**
+     * Display news by category.
+     */
+    public function category(Category $category)
+    {
+        $all_news = Berita::where('status', 'published')
+            ->where('category_id', $category->id)
+            ->with(['user', 'category'])
+            ->latest()
+            ->paginate(12);
+        
+        $trending_keywords = ['Pemilu 2024', 'Mudik Lebaran', 'Artificial Intelligence', 'Timnas Indonesia', 'Inovasi Digital', 'Gaya Hidup Sehat'];
+        
+        // Get active advertisements
+        $raw_ads = Iklan::active()->get();
+        $ads = [
+            'sidebar_square' => $raw_ads->where('position', 'sidebar_square')->first(),
+        ];
+
+        return view('welcome', [
+            'latest_news' => collect(), // Empty hero for category pages
+            'all_news' => $all_news,
+            'ads' => $ads,
+            'categories' => [], // Hide category blocks on category page
+            'trending_keywords' => $trending_keywords,
+            'category_title' => $category->name
+        ]);
     }
 }

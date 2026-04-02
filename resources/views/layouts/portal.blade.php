@@ -331,19 +331,16 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto gap-1 align-items-center">
                     <li class="nav-item">
-                        <a class="nav-link px-3 fw-medium text-slate-700 {{ request()->is('/') ? 'active text-primary' : '' }}" href="/">Home</a>
+                        <a class="nav-link px-2 fw-medium text-slate-700 {{ request()->is('/') ? 'active text-primary border-bottom border-primary border-2' : '' }}" href="/">Home</a>
                     </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link px-3 dropdown-toggle fw-medium text-slate-700" href="#" role="button" data-bs-toggle="dropdown">Kategori</a>
-                        <ul class="dropdown-menu border-0 shadow-xl rounded-4 p-2 mt-2">
-                            <li><a class="dropdown-item rounded-3 py-2" href="#">Nasional</a></li>
-                            <li><a class="dropdown-item rounded-3 py-2" href="#">Ekonomi</a></li>
-                            <li><a class="dropdown-item rounded-3 py-2" href="#">Teknologi</a></li>
-                            <li><a class="dropdown-item rounded-3 py-2" href="#">Hiburan</a></li>
-                        </ul>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link px-3 fw-medium text-slate-700 {{ request()->is('bookmarks') ? 'active text-primary' : '' }}" href="/bookmarks">Terarsip</a>
+                    @foreach($nav_categories as $cat)
+                        <li class="nav-item">
+                            <a class="nav-link px-2 fw-medium text-slate-700 {{ request()->is('category/'.$cat->slug) ? 'active text-primary border-bottom border-primary border-2' : '' }}" 
+                               href="{{ route('news.category', $cat->slug) }}">{{ $cat->name }}</a>
+                        </li>
+                    @endforeach
+                    <li class="nav-item ms-2">
+                        <a class="nav-link px-2 fw-medium text-slate-700 {{ request()->is('bookmarks') ? 'active text-primary border-bottom border-primary border-2' : '' }}" href="/bookmarks">Terarsip</a>
                     </li>
                 </ul>
                 <div class="ms-lg-4 d-flex align-items-center gap-3">
