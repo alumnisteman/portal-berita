@@ -4,6 +4,10 @@
 
 @section('content')
     <article class="py-5 mb-5 bg-white">
+        <!-- DEBUG CONTENT -->
+        <div class="container d-none">
+            Length: {{ strlen($berita->content) }}
+        </div>
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-lg-10">
