@@ -63,7 +63,8 @@ class AiArticleController extends Controller
                 ]);
 
             if ($response->failed()) {
-                return back()->withErrors(['error' => 'Gagal menghubungi AI. Periksa API key Gemini Anda.'])->withInput();
+                $errorMsg = $response->json('error.message') ?? 'Gagal menghubungi AI. Periksa API key Gemini Anda.';
+                return back()->withErrors(['error' => $errorMsg])->withInput();
             }
 
             $text = $response->json('candidates.0.content.parts.0.text');
